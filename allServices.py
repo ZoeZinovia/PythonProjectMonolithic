@@ -7,6 +7,8 @@ import sys
 import adafruit_dht
 import board
 
+start_total = time.time()
+
 # ------ Variables for all ------ #
 
 MQTT_SERVER = sys.argv[1]
@@ -109,6 +111,10 @@ end_HT = time.time()
 print("Humidity and temperature runtime = " + str(end_HT-start_HT))
 with open("piResultsPythonMono.txt", "a") as myfile:
     myfile.write("Humidity and temperature publisher runtime = " + str(end_HT-start_HT) + "\n")
+
+end_total = time.time()
+with open("piResultsPythonMono.txt", "a") as myfile:
+    myfile.write("Overall runtime = " + str(end_total-start_total) + "\n")
 
 
 

@@ -1,0 +1,9 @@
+#Script to run python script on the publisher side.
+#Run by using the following line in the correct directory in terminal: bash runPythonScripts <ipaddress of raspberry pi>
+#$1 represents the passed argument (ipaddress).
+
+sleep 2
+
+/usr/bin/time -v -o memoryResultsPythonMono.txt -a python3 allServices.py $1
+
+exit

@@ -60,7 +60,6 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 client.connect(MQTT_SERVER, 1883, 60)
-client.loop_forever()
 
 # ------ PIR code ------#
 
@@ -119,6 +118,8 @@ with open("piResultsPythonMonoLongl.txt", "a") as myfile:
 end_total = time.time()
 with open("piResultsPythonMonoLongl.txt", "a") as myfile:
     myfile.write("Overall runtime = " + str(end_total-start_total) + "\n")
+
+client.loop_forever()
 
 
 

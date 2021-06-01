@@ -41,7 +41,7 @@ def on_message(client, userdata, msg):
         client.disconnect()
         end_LED = time.time()
         timer = end_LED - start_led
-        with open("piResultsPythonMonoLongl.txt", "a") as myfile:
+        with open("piResultsPythonMonoLong.txt", "a") as myfile:
             myfile.write("LED subscriber runtime = " + str(timer) + "\n")
         print("LED subscriber runtime = " + str(timer) + "\n");
         GPIO.output(PIN_LED, GPIO.LOW)
@@ -73,11 +73,9 @@ presence = False
 count = 0
 while count < 100000:
     try:
-        print("In Pir")
         presence = GPIO.input(17)
         temp_json = {"PIR": presence}
         publish.single(MQTT_PATH_PIR, json.dumps(temp_json), port=1883, hostname=MQTT_SERVER)
-        print("Published Pir")
     except RuntimeError as error:  # Errors happen fairly often, DHT's are hard to read, just keep going
         print(error.args[0])
     count += 1
@@ -85,7 +83,7 @@ while count < 100000:
 publish.single(MQTT_PATH_PIR, json.dumps({"Done": True}), port=1883, hostname=MQTT_SERVER)
 end_PIR = time.time()
 print("PIR publisher runtime = " + str(end_PIR-start_PIR))
-with open("piResultsPythonMonoLongl.txt", "a") as myfile:
+with open("piResultsPythonMonoLong.txt", "a") as myfile:
     myfile.write("PIR publisher runtime = " + str(end_PIR-start_PIR) + "\n")
 
 # ------ Humidity and Temperature code ------#
@@ -96,14 +94,12 @@ dhtDevice = adafruit_dht.DHT11(board.D4)
 count = 0
 while count < 100000:
     try:
-        print("in dht")
         humidity = dhtDevice.humidity # Get current humidity from dht11
         temperature = dhtDevice.temperature # Get current temperature from dht11
         hum_json = {"Humidity": humidity, "Unit": "%"}
         publish.single("Humidity", json.dumps(hum_json), hostname=MQTT_SERVER)
         temp_json = {"Temp": temperature, "Unit": "C"}
         publish.single("Temperature", json.dumps(temp_json), hostname=MQTT_SERVER)
-        print("done dht")
     except RuntimeError as error:  # Errors happen fairly often, DHT's are hard to read, just keep going
         error.args[0]
     count += 1
@@ -112,11 +108,11 @@ publish.single("Humidity", json.dumps({"Done": True}), port=1883, hostname=MQTT_
 publish.single("Temperature", json.dumps({"Done": True}), port=1883, hostname=MQTT_SERVER)
 end_HT = time.time()
 print("Humidity and temperature runtime = " + str(end_HT-start_HT))
-with open("piResultsPythonMonoLongl.txt", "a") as myfile:
+with open("piResultsPythonMonoLong.txt", "a") as myfile:
     myfile.write("Humidity and temperature publisher runtime = " + str(end_HT-start_HT) + "\n")
 
 end_total = time.time()
-with open("piResultsPythonMonoLongl.txt", "a") as myfile:
+with open("piResultsPythonMonoLong.txt", "a") as myfile:
     myfile.write("Overall runtime = " + str(end_total-start_total) + "\n")
 
 client.loop_forever()

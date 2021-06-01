@@ -72,7 +72,7 @@ MQTT_PATH_PIR = "PIR"
 GPIO.setup(17, GPIO.IN)  # Change setup
 presence = False
 count = 0
-while count < 1000000:
+while count < 100000:
     try:
         presence = GPIO.input(17)
         temp_json = {"PIR": presence}
@@ -93,7 +93,7 @@ with open("piResultsPythonMonoLong.txt", "a") as myfile:
 start_HT = time.time()
 dhtDevice = adafruit_dht.DHT11(board.D4)
 count = 0
-while count < 1000000:
+while count < 100000:
     try:
         humidity = dhtDevice.humidity # Get current humidity from dht11
         temperature = dhtDevice.temperature # Get current temperature from dht11
